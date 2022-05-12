@@ -1,5 +1,13 @@
-/* for test purposes only */
-.cardContainer {
+.card {
     border: 1px black solid;
+    margin: 1rem;
+    width: 18rem;
+    height: 25rem;
 }
-/* for test purposes only */
+
+/* hover state */
+.card:hover {
+    cursor: pointer;
+}
+
+
