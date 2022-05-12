@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import Card from './Components/Card.jsx';
-import { data } from './content';
+// import { data } from './content';
 
 function App() {
     /*
@@ -12,11 +12,8 @@ function App() {
   
   return (
     <div className="cardsContainer">
-      {data.map((data) =>
-      <Card 
-        
-      />
-      )}
+
+      <Card />
     </div>
     
   )  

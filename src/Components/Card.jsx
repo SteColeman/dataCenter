@@ -1,23 +1,80 @@
 import React from "react";
 import "./Card.css";
+// import App from "./App.jsx"
+//  import data from '../content.json'
 
+var Airtable = require('airtable');
+var base = new Airtable({apiKey: 'keyzpKdKzXgaZVthy'}).base('appyBShMIPOgtSJpN');
 class Card extends React.Component {
 
-    render() { 
-        return (
-            <div className="card">
-                <div className='cardImage'>
-                    <img src='' alt="" />
-                </div>
+    constructor(props) {
+        super(props);
+        this.state = {
+            cards: [],
+            fetchLoaded: false
+        };
+    }
 
-                <div className="cardTitle">
-                    <h2>props.name</h2>
-                </div>
+    componentDidMount() {
+        var recordArray = [];
+        // function cards() {
+          base('Articles').select({
+            // Selecting the first 3 records in Grid view:
+            // maxRecords: 100,
+            // view: "Grid view"
+        }).eachPage(function page(records) {
+            // This function (`page`) will get called for each page of records.
+            recordArray = records;
+        
+            records.forEach(function(record) {
+                recordArray.push(record)
+            });
+            this.setState({
+                cards: recordArray,
+                fetchLoaded: true,
+            })
 
 
+        }, function done(err) {
+            if (err) { console.error(err); return; }
+        });
+
+        fetch('https://api.airtable.com/v0/appyBShMIPOgtSJpN/Articles?api_key=keyzpKdKzXgaZVthy')
+        .then(response => response.json())
+        .then(data => 
+            this.setState({
+                cards: data,
+                fetchLoaded: true,
+            })
+            //   console.log({data});
+            
+          )
+
+
+    }
+
+
+
+    render() {
+        const {fetchLoaded, cards } = this.state;
+        if(fetchLoaded) {
+             return (
+            <div>
+            {                
+                // console.log('returned crads: ' + cards)
+                cards.map((data) =>
+                <h1>{data.title}</h1>
+
+                
+                 )
+            }
             </div>
-        )
+        ) 
+        } else {
+            return <div><h1>Error</h1></div>
+        }
 
+        
     }
 }
 
